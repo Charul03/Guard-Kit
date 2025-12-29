@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="analyzer-container">
+  <h2 class="title">🛡️ Web Security — Header Analyzer</h2>
+  <p class="subtitle">Check your website for missing HTTP security headers</p>
+
+  <form method="post" class="analyzer-form">
+    <label for="url">🔗 Enter URL (example: https://example.com)</label>
+    <input type="text" id="url" name="url" placeholder="https://example.com" value="{{ url or '' }}" required>
+    <button type="submit" class="scan-btn">Analyze Headers</button>
+  </form>
+
+  {% if analysis %}
+    <div class="result-section">
+      {% if analysis.error %}
+        <div class="error-box">
+          ❌ Error: {{ analysis.error }}
+        </div>
+      {% else %}
+        <div class="report-box">
+          <h3>📊 Analysis Summary</h3>
+          <p><b>URL:</b> {{ analysis.url }}</p>
+          <p><b>Status Code:</b> {{ analysis.status_code }}</p>
+        </div>
+
+        <div class="header-box">
+          <h3>⚠️ Missing Recommended Headers</h3>
+          {% if analysis.missing %}
+            <ul class="missing-list">
+              {% for h in analysis.missing %}
+                <li>❌ {{ h }}</li>
+              {% endfor %}
+            </ul>
+            <p class="tip">💡 Add these headers to improve website security.</p>
+          {% else %}
+            <p class="success">✅ All recommended security headers are present! Great job!</p>
+          {% endif %}
+        </div>
+
+        <div class="all-headers">
+          <h3>🧾 All Response Headers</h3>
+          <pre>{{ analysis.headers | tojson(indent=2) }}</pre>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+<style>
+/* Main container */
+.analyzer-container {
+  background: linear-gradient(135deg, #0f0f0f, #1a1a2e, #16213e);
+  color: #e0e0e0;
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 900px;
+  margin: 40px auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Title and Subtitle */
+.title {
+  font-size: 1.8rem;
+  color: #9cf;
+  text-align: center;
+  margin-bottom: 5px;
+}
+.subtitle {
+  text-align: center;
+  color: #aaa;
+  margin-bottom: 25px;
+}
+
+/* Form */
+.analyzer-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.analyzer-form input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #2b2b40;
+  color: #fff;
+  font-size: 1rem;
+}
+.scan-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #3a6186, #89253e);
+  color: #fff;
+  font-weight: bold;
+  transition: transform 0.2s ease, background 0.4s ease;
+}
+.scan-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #89253e, #3a6186);
+}
+
+/* Results */
+.result-section {
+  margin-top: 30px;
+}
+.report-box, .header-box, .all-headers {
+  background: #1e1e2f;
+  padding: 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+.report-box h3, .header-box h3, .all-headers h3 {
+  color: #9cf;
+  margin-bottom: 10px;
+}
+
+/* Error and Success Messages */
+.error-box {
+  background: #b71c1c;
+  color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}
+.success {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+/* Missing Header List */
+.missing-list {
+  list-style: none;
+  padding-left: 10px;
+}
+.missing-list li {
+  margin-bottom: 6px;
+  color: #ff6666;
+}
+.tip {
+  margin-top: 10px;
+  color: #ffcc00;
+  font-size: 0.95rem;
+}
+
+/* Preformatted headers */
+pre {
+  background: #111827;
+  color: #00ff99;
+  padding: 15px;
+  border-radius: 10px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  font-family: "Courier New", monospace;
+}
+</style>
+{% endblock %}

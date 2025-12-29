@@ -1,2 +1,17 @@
-# Guard-Kit
-Built a unified cybersecurity toolkit with Python and PyQt5, featuring modular security analysis, SQLite data storage, offline/online scanning, and automated PDF/HTML reporting through a user-friendly GUI.
+# GuardKit
+
+Educational Flask app with small security tools:
+- Network port scanner
+- HTTP header analyzer
+- File hash generator (optional VirusTotal integration)
+- Fernet encrypt/decrypt
+- File metadata + hex preview
+- Simple user accounts & report storage (SQLite)
+
+## Setup
+
+1. Create venv and install dependencies:
+```bash
+python -m venv venv
+source venv/bin/activate   # on Windows: venv\Scripts\activate
+pip install -r requirements.txt

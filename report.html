@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Your Reports</h2>
+
+<div class="tabs">
+    <button class="tab-btn active" onclick="filterReports('all')">All</button>
+    <button class="tab-btn" onclick="filterReports('websec')">Web</button>
+    <button class="tab-btn" onclick="filterReports('network')">Network</button>
+    <button class="tab-btn" onclick="filterReports('forensics')">Forensics</button>
+    <button class="tab-btn" onclick="filterReports('crypto')">Crypto</button>
+    <button class="tab-btn" onclick="filterReports('hash')">Hash</button>
+    <button class="tab-btn" onclick="filterReports('Malware')">Malware</button>
+    <button class="tab-btn" onclick="filterReports('Other')">Other</button>
+</div>
+
+{% if reports %}
+    {% for r in reports %}
+    <div class="report-card" data-category="{{ r.category }}">
+
+        <div class="category-label">{{ r.category }}</div>
+        <div class="report-title">{{ r.title }}</div>
+        <div><b>Date:</b> {{ r.timestamp }}</div>
+        <hr>
+
+        <!-- ========== TEXT REPORT ========== -->
+        {% if r.type == "text" %}
+        <pre>{{ r.content }}</pre>
+        {% endif %}
+
+        <!-- ========== DICT REPORT ========== -->
+        {% if r.type == "dict" %}
+        <table>
+            {% for key, value in r.content.items() %}
+            <tr>
+                <th>{{ key }}</th>
+                <td>
+                    {% if value is mapping %}
+                        <pre>{{ value | tojson(indent=2) }}</pre>
+                    {% else %}
+                        {{ value }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+
+        <!-- ========== LIST REPORT ========== -->
+        {% if r.type == "list" %}
+        <ul>
+            {% for item in r.content %}
+            <li>
+                {% if item is mapping %}
+                    <pre>{{ item | tojson(indent=2) }}</pre>
+                {% else %}
+                    {{ item }}
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <!-- ========== RAW JSON REPORT ========== -->
+        {% if r.type == "raw" %}
+        <pre>{{ r.content | tojson(indent=2) }}</pre>
+        {% endif %}
+
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No reports found.</p>
+{% endif %}
+
+<script>
+function filterReports(category) {
+    let cards = document.querySelectorAll(".report-card");
+    cards.forEach(card => {
+        card.style.display = (category === "all" || card.dataset.category === category)
+            ? "block"
+            : "none";
+    });
+
+    document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+    event.target.classList.add("active");
+}
+</script>
+
+{% endblock %}

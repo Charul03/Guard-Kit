@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="analyzer-container">
+  <h2 class="title">🛡️ Network Port Scanner</h2>
+  <p class="subtitle">Scan a host for open TCP ports (quick scan)</p>
+
+  <form method="post" class="analyzer-form">
+    <label for="host">Target host (IP or hostname)</label>
+    <input type="text" id="host" name="host" value="{{ target or '' }}" required>
+
+    <label for="ports">Ports (examples: 80,443,1-1024) — leave empty for 1–1024</label>
+    <input type="text" id="ports" name="ports" placeholder="80,443,1-1024" value="{{ request.form.ports or '' }}">
+
+    <label for="timeout">Timeout seconds</label>
+    <input type="text" id="timeout" name="timeout" value="{{ request.form.timeout or '0.8' }}">
+
+    <label for="max_threads">Max threads</label>
+    <input type="text" id="max_threads" name="max_threads" value="{{ request.form.max_threads or '200' }}">
+
+    <button type="submit" class="scan-btn">Scan</button>
+  </form>
+
+  {% if result is not none %}
+    <div class="result-section">
+      <h3 class="result-title">Open ports</h3>
+      <pre class="result-pre">{{ result }}</pre>
+    </div>
+  {% endif %}
+</div>
+
+<style>
+/* Main container (same theme as header analyzer) */
+.analyzer-container {
+  background: linear-gradient(135deg, #0f0f0f, #1a1a2e, #16213e);
+  color: #e0e0e0;
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 900px;
+  margin: 40px auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Title and Subtitle */
+.title {
+  font-size: 1.8rem;
+  color: #9cf;
+  text-align: center;
+  margin-bottom: 5px;
+}
+.subtitle {
+  text-align: center;
+  color: #aaa;
+  margin-bottom: 25px;
+}
+
+/* Form */
+.analyzer-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.analyzer-form input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #2b2b40;
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+.scan-btn {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #3a6186, #89253e);
+  color: #fff;
+  font-weight: bold;
+  transition: transform 0.2s ease, background 0.4s ease;
+}
+.scan-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #89253e, #3a6186);
+}
+
+/* Results */
+.result-section {
+  margin-top: 30px;
+}
+.result-title {
+  color: #9cf;
+  margin-bottom: 10px;
+}
+.result-pre {
+  background: #111827;
+  color: #00ff99;
+  padding: 15px;
+  border-radius: 10px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  font-family: "Courier New", monospace;
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+  .analyzer-container { padding: 20px; margin: 20px; }
+  .title { font-size: 1.4rem; }
+}
+</style>
+{% endblock %}

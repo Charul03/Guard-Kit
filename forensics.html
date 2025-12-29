@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% extends "base.html" %}
+{% block content %}
+  <h2>File Forensics</h2>
+  <form method="post" enctype="multipart/form-data">
+    <label>Upload file</label><input type="file" name="file">
+    <button type="submit">Analyze</button>
+  </form>
+
+  {% if filename %}
+    <h3>{{ filename }}</h3>
+  {% endif %}
+
+  {% if meta %}
+    <h4>Metadata</h4>
+    <pre>{{ meta }}</pre>
+  {% endif %}
+
+  {% if hex_preview %}
+    <h4>Hex preview (first bytes)</h4>
+    <pre>{{ hex_preview }}</pre>
+  {% endif %}
+{% endblock %}
+</title>
+</head>
+<body>
+
+</body>
+</html>

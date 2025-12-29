@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   <title>GuardKit - {{ title or "Security Toolkit" }}</title>
+
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <header class="nav">
+    <a href="{{ url_for('index') }}" class="brand">GuardKit</a>
+    <nav>
+      <a href="{{ url_for('network_view') }}">Network</a>
+      <a href="{{ url_for('websec_view') }}">WebSec</a>
+      <a href="{{ url_for('malware_view') }}">Malware</a>
+      <a href="{{ url_for('crypto_view') }}">Crypto</a>
+      <a href="{{ url_for('forensics_view') }}">Forensics</a>
+      <a href="{{ url_for('reports') }}">Reports</a>
+      {% if current_user.is_authenticated %}
+        <span class="user">Hi {{ current_user.username }}</span>
+        <a href="{{ url_for('signout') }}">Sign out</a>
+      {% else %}
+        <a href="{{ url_for('signin') }}">Sign in</a>
+        <a href="{{ url_for('signup') }}">Sign up</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="flash {{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    GuardKit — educational toolkit. Use responsibly.
+  </footer>
+</body>
+</html>
+</title>
+</head>
+<body>
+
+</body>
+</html>

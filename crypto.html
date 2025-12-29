@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% extends "base.html" %}
+{% block content %}
+  <h2>Crypto (Fernet)</h2>
+
+  <h3>Generate key</h3>
+  <form method="post">
+    <button name="generate_key" value="1">Generate Key</button>
+  </form>
+  {% if gen_key %}
+    <p>Key (store this securely): <code>{{ gen_key }}</code></p>
+  {% endif %}
+
+  <h3>Encrypt a file</h3>
+  <form method="post" enctype="multipart/form-data">
+    <label>File</label><input type="file" name="file">
+    <label>Key</label><input name="key" placeholder="Enter your key">
+    <button name="encrypt">Encrypt</button>
+  </form>
+
+  <h3>Decrypt a file</h3>
+  <form method="post" enctype="multipart/form-data">
+    <label>Encrypted file (.enc)</label><input type="file" name="file">
+    <label>Key</label><input name="key" placeholder="Enter your key">
+    <button name="decrypt">Decrypt</button>
+  </form>
+
+  {% if enc_out %}
+    <p>Encrypted file: {{ enc_out }}</p>
+  {% endif %}
+  {% if dec_out %}
+    <p>Decrypted file: {{ dec_out }}</p>
+  {% endif %}
+{% endblock %}
+</title>
+</head>
+<body>
+
+</body>
+</html>

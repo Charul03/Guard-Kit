@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pastel Gradient Themed Interface</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Garcedo&family=Lagom&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Lagom', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f6d6d6, #f2e6ff, #d6f6f5);
+      color: #333;
+    }
+
+    /* Navbar */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      background: linear-gradient(90deg, #ffd6e0, #d6eaff, #f8f3d4);
+      color: #333;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .nav .brand {
+      font-family: 'Garcedo', sans-serif;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-right: 20px;
+      color: #4b4b8f;
+      text-decoration: none;
+      animation: fadeIn 2s ease-in-out;
+    }
+    .nav nav a {
+      color: #444;
+      margin-right: 12px;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .nav nav a:hover {
+      color: #7a5eb8;
+    }
+
+    /* Layout */
+    .container {
+      display: flex;
+      padding: 20px;
+    }
+    .main {
+      flex: 3;
+      margin-right: 20px;
+    }
+    .sidebar {
+      flex: 1;
+      background: #fffaf7;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label { display:block; margin-top:8px; font-weight:600; color:#333; }
+    input, select, textarea {
+      display:block;
+      padding:8px;
+      margin-top:6px;
+      width:100%;
+      max-width:520px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background: #fff;
+      color: #333;
+    }
+
+    /* Buttons */
+    button {
+      margin-top: 10px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      background: linear-gradient(90deg, #a8edea, #fed6e3);
+      color: #333;
+      font-weight: bold;
+      transition: transform 0.3s ease, background 0.4s ease;
+    }
+    button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #fed6e3, #a8edea);
+    }
+
+    /* Flash messages */
+    .flashes { list-style:none; padding:0; }
+    .flash { padding:8px; margin-bottom:8px; border-radius:4px; }
+    .flash.success { background:#a8e6cf; color:#2f4f4f; }
+    .flash.danger { background:#ffaaa5; color:#4b0000; }
+
+    /* Footer */
+    .footer {
+      padding:16px;
+      color:#555;
+      font-size:14px;
+      border-top:1px solid #ddd;
+      margin-top:20px;
+      text-align:center;
+      background:#fff;
+    }
+
+    pre {
+      background:#f3f3f3;
+      padding:12px;
+      overflow:auto;
+      max-width:100%;
+      border-radius: 8px;
+      color:#333;
+    }
+
+    /* Dropdown */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background: #fff;
+      min-width: 160px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      z-index: 1;
+    }
+    .dropdown-content a {
+      color: #333;
+      padding: 10px;
+      display: block;
+      text-decoration: none;
+    }
+    .dropdown-content a:hover { background: #f0f0ff; }
+    .dropdown:hover .dropdown-content { display: block; }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(255,255,255,0.7);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #fffaf7;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      color: #333;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Slider */
+    .slider {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+    .slides {
+      display: flex;
+      animation: slide 12s infinite;
+    }
+    .slides img {
+      width: 100%;
+      border-radius: 12px;
+    }
+    @keyframes slide {
+      0% { transform: translateX(0); }
+      33% { transform: translateX(-100%); }
+      66% { transform: translateX(-200%); }
+      100% { transform: translateX(0); }
+    }
+
+    /* Chat widget */
+    .chat-widget {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #fff;
+      color: #333;
+      border-radius: 12px;
+      padding: 10px;
+      width: 250px;
+      height: 300px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    }
+    .chat-header {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #444;
+    }
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+    .chat-input {
+      display: flex;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .chat-input button {
+      padding: 6px 10px;
+      background: linear-gradient(90deg, #fbc2eb, #a6c1ee);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="nav">
+    <a href="#" class="brand">MyWebsite</a>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <div class="dropdown">
+        <a href="#">Menu ▾</a>
+        <div class="dropdown-content">
+          <a href="#">Option 1</a>
+          <a href="#">Option 2</a>
+        </div>
+      </div>
+      <a href="#" onclick="openModal()">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Container -->
+  <div class="container">
+    <!-- Main -->
+    <div class="main">
+      <h1>Welcome to the Pastel Gradient Interface</h1>
+      <p>This is some sample text content styled with the Lagom font.</p>
+
+      <!-- Slider -->
+      <div class="slider">
+        <div class="slides">
+          <img src="https://via.placeholder.com/800x300/fce4ec/333?text=Slide+1">
+          <img src="https://via.placeholder.com/800x300/e1f5fe/333?text=Slide+2">
+          <img src="https://via.placeholder.com/800x300/f3e5f5/333?text=Slide+3">
+        </div>
+      </div>
+
+      <!-- Image -->
+      <img src="https://via.placeholder.com/600x300/f8bbd0/333?text=Sample+Image" alt="Sample" style="border-radius:12px; margin:10px 0;">
+
+      <!-- Video -->
+      <video width="600" controls style="border-radius:12px; margin:10px 0;">
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+      </video>
+
+      <!-- Form -->
+      <form>
+        <label>Name</label>
+        <input type="text" placeholder="Enter your name">
+        <label>Message</label>
+        <textarea placeholder="Type here"></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h3>Sidebar</h3>
+      <p>Extra content, links, and widgets go here.</p>
+      <a href="#">Example Link</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    &copy; 2025 MyWebsite | Pastel Gradient Theme Demo
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-content">
+      <h2>Contact Us</h2>
+      <p>This is a sample modal popup.</p>
+      <button onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Chat Widget -->
+  <div class="chat-widget">
+    <div class="chat-header">Chat</div>
+    <div class="chat-messages">
+      <p><b>User:</b> Hello!</p>
+      <p><b>Bot:</b> Hi, how can I help?</p>
+    </div>
+    <div class="chat-input">
+      <input type="text" placeholder="Type...">
+      <button>Send</button>
+    </div>
+  </div>
+
+  <script>
+    function openModal() { document.getElementById('myModal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('myModal').style.display = 'none'; }
+  </script>
+</body>
+</html>
